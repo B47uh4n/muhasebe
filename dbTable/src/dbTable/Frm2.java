@@ -31,11 +31,13 @@ public class Frm2 extends JFrame {
 	private JTable table;
 	
 	DefaultTableModel modelim = new DefaultTableModel();
-	Object[] kolonlar = {"No","isim","soyisim"};
-	Object[] satirlar = new Object[3];
+	Object[] kolonlar = {"No","Ad","Soyad","Maaþ","Tel"};
+	Object[] satirlar = new Object[5];
 	private JTextField txt_no;
 	private JTextField txt_ad;
 	private JTextField txt_soyad;
+	private JTextField txt_maas;
+	private JTextField txt_tel;
 	private JTextField txt_adsorgu;
 
 	/**
@@ -88,9 +90,11 @@ public class Frm2 extends JFrame {
 				
 				try {
 					while (myRs.next()) {
-						satirlar[0] = myRs.getString("ogr_no");
-						satirlar[1] = myRs.getString("ogr_ad");
-						satirlar[2] = myRs.getString("ogr_soyad");
+						satirlar[0] = myRs.getString("idper");
+						satirlar[1] = myRs.getString("perad");
+						satirlar[2] = myRs.getString("persoyad");
+						satirlar[3] = myRs.getString("permaas");
+						satirlar[4] = myRs.getString("pertel");
 						modelim.addRow(satirlar);
 						
 					}
@@ -124,24 +128,40 @@ public class Frm2 extends JFrame {
 		contentPane.add(txt_soyad);
 		txt_soyad.setColumns(10);
 		
+		txt_maas = new JTextField();
+		txt_maas.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		txt_maas.setBounds(665, 228, 213, 33);
+		contentPane.add(txt_maas);
+		txt_maas.setColumns(10);
+		
+		txt_tel = new JTextField();
+		txt_tel.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		txt_tel.setBounds(665, 295, 213, 33);
+		contentPane.add(txt_tel);
+		txt_tel.setColumns(10);
+		
 		JButton btnKaydet = new JButton("Kaydet");
 		btnKaydet.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		btnKaydet.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				String no,ad,soyad,sql_sorgu;
+				String no,ad,soyad,maas,tel,sql_sorgu;
 				no = txt_no.getText();
 				ad = txt_ad.getText();
 				soyad = txt_soyad.getText();
+				maas = txt_maas.getText();
+				tel = txt_tel.getText();
 				
-				sql_sorgu = "INSERT INTO ogrenci (ogr_ad,ogr_soyad) VALUES ('" + ad + "'," + "'" + soyad + "')" ;   
+				sql_sorgu = "INSERT INTO personel (perad,persoyad,permaas,pertel) VALUES ('" + ad + "'," + "'" + soyad + "'," + maas + ",'" +
+				tel + "')" ;   
 				//System.out.println(sql_sorgu);
 				baglanti.ekle(sql_sorgu);
 				
 			}
 		});
-		btnKaydet.setBounds(596, 230, 95, 25);
+		btnKaydet.setBounds(582, 390, 95, 25);
 		contentPane.add(btnKaydet);
+		if(giris.ad.equals("calisan")) {btnKaydet.setEnabled(false);}
 		
 		JLabel lblNewLabel = new JLabel("Numara");
 		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 18));
@@ -162,21 +182,24 @@ public class Frm2 extends JFrame {
 		JButton btnUpdate = new JButton("Update");
 		btnUpdate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String no,ad,soyad,sql_sorgu;
+				String no,ad,soyad,maas,tel,sql_sorgu;
 				no = txt_no.getText();
 				ad = txt_ad.getText();
 				soyad = txt_soyad.getText();
+				maas = txt_maas.getText();
+				tel = txt_tel.getText();
 				
-				sql_sorgu = "UPDATE ogrenci SET ogr_no="+no+","+
-				            "ogr_ad='"+ad+"',ogr_soyad='"+soyad+
-				            "' WHERE ogr_no="+no;
+				sql_sorgu = "UPDATE personel SET idper="+no+","+
+				            "perad='"+ad+"',persoyad='"+soyad+"',permaas=" + maas + ",pertel='" + tel +
+				            "' WHERE idper="+no;
 				
 				baglanti.update(sql_sorgu);
 			}
 		});
 		btnUpdate.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		btnUpdate.setBounds(783, 230, 95, 25);
+		btnUpdate.setBounds(783, 390, 95, 25);
 		contentPane.add(btnUpdate);
+		if(giris.ad.equals("calisan")) {btnUpdate.setEnabled(false);}
 		
 		// veritabanindan kayit silme
 		JButton btnSil = new JButton("Sil");
@@ -184,15 +207,16 @@ public class Frm2 extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				String no,sql_sorgu;
 				no = txt_no.getText();
-				sql_sorgu = "DELETE FROM ogrenci WHERE ogr_no=" +no;
+				sql_sorgu = "DELETE FROM personel WHERE idper=" +no;
 				baglanti.sil(sql_sorgu);
 			}
 		});
 		btnSil.setForeground(Color.BLACK);
 		btnSil.setBackground(Color.RED);
 		btnSil.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		btnSil.setBounds(696, 265, 87, 25);
+		btnSil.setBounds(689, 427, 87, 25);
 		contentPane.add(btnSil);
+		if(giris.ad.equals("calisan")) {btnSil.setEnabled(false);}
 		
 		txt_adsorgu = new JTextField();
 		txt_adsorgu.setBounds(22, 393, 107, 25);
@@ -207,7 +231,7 @@ public class Frm2 extends JFrame {
 		// sorgulama alan secimi icin combobox
 		JComboBox comboBox = new JComboBox();
 		comboBox.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		comboBox.setModel(new DefaultComboBoxModel(new String[] {"Ad", "Soyad", "Numara"}));
+		comboBox.setModel(new DefaultComboBoxModel(new String[] {"Ad", "Soyad", "Numara","Tel No","Maas"}));
 		comboBox.setBounds(70, 358, 95, 25);
 		contentPane.add(comboBox);
 		
@@ -224,20 +248,26 @@ public class Frm2 extends JFrame {
 				
 				// ad indexi icin ad, soyad icin soyad, no icin no sorgulama
 				if(secilen == 0) {
-					sql_sorgu = "select * from ogrenci where ogr_ad like '"+ alan + "%'";
+					sql_sorgu = "select * from personel where perad like '"+ alan + "%'";
 				} else if(secilen == 1) {
-					sql_sorgu = "select * from ogrenci where ogr_soyad like '"+ alan + "%'";
+					sql_sorgu = "select * from personel where persoyad like '"+ alan + "%'";
 				} else if(secilen == 2) {
-					sql_sorgu = "select * from ogrenci where ogr_no = "+ Integer.parseInt(alan);
+					sql_sorgu = "select * from personel where idper = "+ Integer.parseInt(alan);
+				} else if(secilen == 3) {
+					sql_sorgu = "select * from personel where pertel like '"+ alan + "%'";
+				} else if(secilen == 4) {
+					sql_sorgu = "select * from personel where permaas = "+ Integer.parseInt(alan);
 				}
 				
 				myRs = baglanti.sorgula(sql_sorgu);
 				
 				try {
 					while (myRs.next()) {
-						satirlar[0] = myRs.getString("ogr_no");
-						satirlar[1] = myRs.getString("ogr_ad");
-						satirlar[2] = myRs.getString("ogr_soyad");
+						satirlar[0] = myRs.getString("idper");
+						satirlar[1] = myRs.getString("perad");
+						satirlar[2] = myRs.getString("persoyad");
+						satirlar[3] = myRs.getString("permaas");
+						satirlar[4] = myRs.getString("pertel");
 						modelim.addRow(satirlar);
 						
 					}
@@ -255,6 +285,16 @@ public class Frm2 extends JFrame {
 		btnNewButton_1.setBounds(22, 428, 95, 25);
 		contentPane.add(btnNewButton_1);
 		
+		JLabel lblMaa = new JLabel("Maa\u015F");
+		lblMaa.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		lblMaa.setBounds(596, 228, 49, 33);
+		contentPane.add(lblMaa);
+		
+		JLabel lblTelefon = new JLabel("Telefon");
+		lblTelefon.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		lblTelefon.setBounds(582, 297, 63, 33);
+		contentPane.add(lblTelefon);
+		
 		
 		
 		table.addMouseListener(new MouseAdapter() {
@@ -263,6 +303,8 @@ public class Frm2 extends JFrame {
 				txt_no.setText((String) modelim.getValueAt(table.getSelectedRow(), 0));
 				txt_ad.setText((String) modelim.getValueAt(table.getSelectedRow(), 1));
 				txt_soyad.setText((String) modelim.getValueAt(table.getSelectedRow(), 2));
+				txt_maas.setText((String) modelim.getValueAt(table.getSelectedRow(), 3));
+				txt_tel.setText((String) modelim.getValueAt(table.getSelectedRow(), 4));
 			}	
 		});
 		

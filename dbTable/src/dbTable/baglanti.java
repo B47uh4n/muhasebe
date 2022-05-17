@@ -16,7 +16,7 @@ public class baglanti {
 		try {
 			myConn = (Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/deneme","root","1234");
 			myStat = (Statement) myConn.createStatement();
-			myRs = myStat.executeQuery("select * from ogrenci");
+			myRs = myStat.executeQuery("select * from personel");
 			
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -20,6 +20,9 @@ public class ekran extends JFrame {
 	JLabel lbl_kullanici;
 	private JButton btn_Urun;
 	private JButton btn_müs;
+	String s1 = "admin";
+	String s2 = "stok";
+	String s3 = "calisan";
 
 	/**
 	 * Launch the application.
@@ -48,9 +51,9 @@ public class ekran extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		String s1 = "admin";
-		String s2 = "stok";
-		String s3 = "calisan";
+		s1 = "admin";
+		s2 = "stok";
+		s3 = "calisan";
 		
 		lbl_kullanici = new JLabel("New label");
 		lbl_kullanici.setFont(new Font("Tahoma", Font.PLAIN, 18));
