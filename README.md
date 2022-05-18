@@ -1,2 +1,2 @@
 # muhasebe
-Personel veritabanını düzeltmedim sadece, onu da düzeltince geriye ufak tefek şeyler kalıcak.
+Personel veritabanı ve yetkiler düzgün, şifre password field ile alınmalı, düzeltmeler yapılacak ve birkaç muhasebe işlemi eklenilebilir
