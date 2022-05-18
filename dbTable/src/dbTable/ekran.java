@@ -68,7 +68,7 @@ public class ekran extends JFrame {
 				
 				Frm2 vt = new Frm2();
 				vt.setVisible(true);
-
+		
 			}
 		});
 		btn_veri.setEnabled(false);
