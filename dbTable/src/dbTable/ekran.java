@@ -12,7 +12,10 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.text.ParseException;
 import java.awt.event.ActionEvent;
+import javax.swing.JToolBar;
+import javax.swing.JFormattedTextField;
 
 public class ekran extends JFrame {
 
@@ -68,12 +71,13 @@ public class ekran extends JFrame {
 				
 				Frm2 vt = new Frm2();
 				vt.setVisible(true);
+	
 		
 			}
 		});
 		btn_veri.setEnabled(false);
 		btn_veri.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		btn_veri.setBounds(200, 24, 210, 36);
+		btn_veri.setBounds(200, 79, 210, 36);
 		contentPane.add(btn_veri);
 		
 		//urun veritabani butonu
@@ -87,33 +91,62 @@ public class ekran extends JFrame {
 		});
 		btn_Urun.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		btn_Urun.setEnabled(false);
-		btn_Urun.setBounds(200, 78, 210, 36);
+		btn_Urun.setBounds(200, 125, 210, 36);
 		contentPane.add(btn_Urun);
 		
 		btn_müs = new JButton("M\u00FC\u015Fteri Veritabani");
 		btn_müs.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				musteriFrm mvt = new musteriFrm();
+				musteriFrm mvt = null;
+				try {
+					mvt = new musteriFrm();
+				} catch (ParseException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 				mvt.setVisible(true);
 			}
 		});
 		btn_müs.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		btn_müs.setEnabled(false);
-		btn_müs.setBounds(200, 134, 210, 36);
+		btn_müs.setBounds(200, 171, 210, 36);
 		contentPane.add(btn_müs);
+		
+		//fis sistemi
+		JButton btnFis = new JButton("Fatura Sistemi");
+		btnFis.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				fisFrm fis = null;
+				try {
+					fis = new fisFrm();
+				} catch (ParseException e1) {
+					
+					e1.printStackTrace();
+				}
+				fis.setVisible(true);
+			
+			}
+		});
+		btnFis.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		btnFis.setEnabled(false);
+		btnFis.setBounds(200, 22, 210, 36);
+		contentPane.add(btnFis);
+		
 		
 		// erisim izinleri
 		if(giris.ad.equals(s1)) {
 			btn_veri.setEnabled(true);
 			btn_Urun.setEnabled(true);
 			btn_müs.setEnabled(true);
+			btnFis.setEnabled(true);
 		} else if(giris.ad.equals(s2)) {
 			btn_Urun.setEnabled(true);
 		} else if(giris.ad.equals(s3)) {
 			btn_Urun.setEnabled(true);
 			btn_veri.setEnabled(true);
 			btn_müs.setEnabled(true);
+			btnFis.setEnabled(true);
 		}
 	}
 

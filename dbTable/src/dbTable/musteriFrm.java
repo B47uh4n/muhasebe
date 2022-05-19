@@ -5,6 +5,7 @@ import java.awt.EventQueue;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -14,16 +15,24 @@ import java.awt.Dialog.ModalExclusionType;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.text.MaskFormatter;
 import javax.swing.JButton;
 import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.print.PageFormat;
+import java.awt.print.Printable;
+import java.awt.print.PrinterException;
+import java.awt.print.PrinterJob;
 import java.awt.Color;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JFormattedTextField;
 
 public class musteriFrm extends JFrame {
 
@@ -58,8 +67,9 @@ public class musteriFrm extends JFrame {
 
 	/**
 	 * Create the frame.
+	 * @throws ParseException 
 	 */
-	public musteriFrm() {
+	public musteriFrm() throws ParseException {
 		setTitle("Müsteri Veritabaný");
 		setDefaultCloseOperation();
 		setBounds(100, 100, 920, 518);
@@ -128,7 +138,10 @@ public class musteriFrm extends JFrame {
 		contentPane.add(txt_soyad);
 		txt_soyad.setColumns(10);
 		
-		txt_tel = new JTextField();
+		
+		MaskFormatter mf = new MaskFormatter ("0(###)-###-##-##");
+		
+		JFormattedTextField txt_tel = new JFormattedTextField(mf);
 		txt_tel.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		txt_tel.setBounds(665, 227, 213, 33);
 		contentPane.add(txt_tel);
@@ -292,6 +305,42 @@ public class musteriFrm extends JFrame {
 		lblNewLabel_2_1.setBounds(582, 284, 63, 33);
 		contentPane.add(lblNewLabel_2_1);
 		
+		//print butonu
+				JButton btnPrint = new JButton("Yazd\u0131r");
+				btnPrint.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						
+						PrinterJob job=PrinterJob.getPrinterJob(); job.setJobName("Printer Data"); job.setPrintable(new Printable(){
+
+						    public int print(Graphics pg,PageFormat pf,int pageNum){
+						                    
+						                        if(pageNum>0){
+						                        return Printable.NO_SUCH_PAGE;
+						                        }
+						                        Graphics2D g2=(Graphics2D)pg;
+						                        g2.translate(pf.getImageableX(),pf.getImageableY());
+						                        g2.scale(0.24,0.24);
+						                        
+						                        contentPane.paint(g2);
+						                        return Printable.PAGE_EXISTS;
+						                    }
+						    
+						    
+						    
+						});
+						boolean ok=job.printDialog(); if(ok){ try{ job.print(); } catch(PrinterException ex){} }
+						
+					}
+				});
+				btnPrint.setFont(new Font("Tahoma", Font.PLAIN, 18));
+				btnPrint.setBounds(423, 336, 95, 25);
+				contentPane.add(btnPrint);
+				
+				/*MaskFormatter mf = new MaskFormatter ("0(###)-###-##-##");
+				
+				JFormattedTextField formattedTextField = new JFormattedTextField(mf);
+				formattedTextField.setBounds(304, 393, 141, 33);
+				contentPane.add(formattedTextField);*/
 		
 		
 		table.addMouseListener(new MouseAdapter() {

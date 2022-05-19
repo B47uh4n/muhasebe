@@ -16,11 +16,17 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JButton;
 import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.print.PageFormat;
+import java.awt.print.Printable;
+import java.awt.print.PrinterException;
+import java.awt.print.PrinterJob;
 import java.awt.Color;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
@@ -273,6 +279,38 @@ public class urunFrm extends JFrame {
 		lblNewLabel_2.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		lblNewLabel_2.setBounds(582, 233, 63, 21);
 		contentPane.add(lblNewLabel_2);
+		
+		
+		//print butonu
+		JButton btnPrint = new JButton("Yazd\u0131r");
+		btnPrint.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				PrinterJob job=PrinterJob.getPrinterJob(); job.setJobName("Printer Data"); job.setPrintable(new Printable(){
+
+				    public int print(Graphics pg,PageFormat pf,int pageNum){
+				                    
+				                        if(pageNum>0){
+				                        return Printable.NO_SUCH_PAGE;
+				                        }
+				                        Graphics2D g2=(Graphics2D)pg;
+				                        g2.translate(pf.getImageableX(),pf.getImageableY());
+				                        g2.scale(0.24,0.24);
+				                        
+				                        contentPane.paint(g2);
+				                        return Printable.PAGE_EXISTS;
+				                    }
+				    
+				    
+				    
+				});
+				boolean ok=job.printDialog(); if(ok){ try{ job.print(); } catch(PrinterException ex){} }
+				
+			}
+		});
+		btnPrint.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		btnPrint.setBounds(423, 336, 95, 25);
+		contentPane.add(btnPrint);
 		
 		
 		
